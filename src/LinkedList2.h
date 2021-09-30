@@ -28,6 +28,7 @@ class LinkedList {
 		T* dequeueLIFO();
 		void print();
 		bool isEmpty();
+		T* findNode(T*);
 		Node<T>* getHead();
 		Node<T>* getTail();
 		int getLength();
@@ -46,15 +47,17 @@ LinkedList<T>::LinkedList() {
 
 template <class T>
 LinkedList<T>::~LinkedList() {
-	Node<T>* currNode = head;
-	Node<T>* temp;
-	while (currNode != NULL) {
-		temp = currNode->next;
-		if(currNode->data != NULL) {
-			delete currNode->data;
+	if(!isEmpty()) {
+		Node<T>* currNode = head;
+		Node<T>* temp;
+		while (currNode != NULL) {
+			temp = currNode->next;
+			if(currNode->data != NULL) {
+				delete currNode->data;
+			}
+			delete currNode;
+			currNode = temp;
 		}
-		delete currNode;
-		currNode = temp;
 	}
 }
 
@@ -77,15 +80,18 @@ template <class T>
 void LinkedList<T>::addEnd(T* newData) {
 	Node<T>* newNode = new Node<T>;
 	newNode->data = newData;
-	if(this->isEmpty()) {
-		this->head = newNode;
-		this->tail = newNode;
-		newNode->next = NULL;
+	newNode->next=NULL;
+	if(isEmpty()) {
+		newNode->prev=NULL;
+		head = newNode;
+	} else if(tail == NULL) {
+		tail = newNode;
+		tail->prev = head;
+		head->next = tail;
 	} else {
-		this->tail->next = newNode;
-		newNode->prev = this->tail;
-		newNode->next = NULL;
-		this->tail = newNode;
+		tail->next=newNode;
+		newNode->prev=tail;
+		tail = newNode;
 	}
 	length++;
 }
@@ -106,7 +112,47 @@ template <> void LinkedList<SearchResults>::print();
 
 template <class T>
 bool LinkedList<T>::isEmpty() {
-	return length == 0;
+	return head == NULL || length == 0;
 }
 
+template<class T>
+T* LinkedList<T>::findNode(T* f_node) {
+	if(!isEmpty()) {
+		Node<T> *tmp = head;
+		while(tmp) {
+			if(tmp->data == f_node) {
+				return f_node;	
+			}
+			tmp = tmp->next;
+		}
+	}	
+	return NULL;
+}
+
+template<class T>
+T* LinkedList<T>::dequeueLIFO() {
+	T* tP = NULL;
+	Node<T>* temp = NULL;
+	if(isEmpty()) {
+		puts("Trying to dequeue from empty.");
+	} else if(tail == NULL) {
+		delete head;
+		head = NULL;
+		length--;
+		puts("Queue is now empty");
+	} else {
+		tP = tail->data;
+		temp = tail->prev;
+		delete tail;
+		length--;
+		if (!isEmpty()) {
+			temp->next = NULL;
+			tail = temp;
+
+		}
+	}
+	std::cout << "length is " << length << "\n";
+	std::cout << "empty status is " << isEmpty() << "\n";
+	return tP;
+}
 #endif

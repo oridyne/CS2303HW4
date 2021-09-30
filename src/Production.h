@@ -22,7 +22,7 @@ public:
 	Production();
 	virtual ~Production();
 	bool prod(int argc, char* argv[]);
-	bool readFile(char*, int*, AdjMat*, Room**);
+	bool readFile(std::string filename, int*, AdjMat*, Room**);
 	bool getYesNo(char* query);
 
 private:

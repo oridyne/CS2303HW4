@@ -50,37 +50,30 @@ bool Tests::testReadFile()
 	ok = pP->readFile("houseGraph.txt", &answer, adjMP, theRoomPs); //read the file
 	if(ok)
 	{
-		if(answer!=rightAnswer)
-		{
+		if(answer!=rightAnswer) {
 			puts("test failed on number of rooms");
 		}
+		puts("The adjacency matrix");
+		for(int i = 0; i<answer; i++) {
+			for(int j = 0; j<answer; j++) {
+				printf("%d",adjMP->getEdge(i, j));
 
-	}
-	puts("The adjacency matrix");
-	for(int i = 0; i<answer; i++)
-	{
-		for(int j = 0; j<answer; j++)
-		{
-			printf("%d",adjMP->getEdge(i, j));
-
+			}
+			printf("\n");
 		}
-		printf("\n");
-	}
-	puts("The treasure values");
-	for(int i = 0; i<answer; i++)
-	{
-		printf("%f\n", theRoomPs[i]->treasure);
-	}
-	if(ok)
-	{
+		puts("The treasure values");
+		for(int i = 0; i<answer; i++) {
+			printf("%f\n", theRoomPs[i]->treasure);
+		} 
+		for(int i = 0; i < rightAnswer; i++) {
+			delete theRoomPs[i];
+		}
+	}	
+	if(ok) {
 		puts("testReadfile did pass");
 	}
-	else
-	{
+	else {
 		puts("testReadfile did not pass.");
-	}
-	for(int i = 0; i < rightAnswer; i++) {
-		delete theRoomPs[i];
 	}
 	delete adjMP;
 	delete pP;

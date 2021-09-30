@@ -14,17 +14,15 @@ using namespace std;
 int main(int argc, char* argv[]) {
 	cout << "!!!Hello World,  we are on HW4!!!" << endl;
 	Tests* tsP = new Tests();
-	if(tsP->tests())
-	{
-        /* Production* pP = new Production(); */
-        /* if(pP->prod(argc, argv)) */
-        /* { */
-        /* 	cout <<"Production passed." << endl; */
-        /* } */
-        /* delete(pP); */
+	if(tsP->tests()) {
+        Production* pP = new Production();
+        if(pP->prod(argc, argv))
+        {
+        	cout <<"Production passed." << endl;
+        }
+        delete(pP);
 	}
-	else
-	{
+	else {
 		cout <<"Not all tests passed." << endl;
 	}
 	delete(tsP);
